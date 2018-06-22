@@ -1,0 +1,39 @@
+String list[] = {0};
+short pos = 0;
+short length = {1};
+
+int buttonPin = {2};
+int lastButtonState = LOW;
+int buttonState;
+
+unsigned long lastDebounceTime = 50;
+unsigned long debounceDelay = 50;
+
+void setup() {{
+    Serial.begin(9600);
+    pinMode(buttonPin, INPUT_PULLUP);
+}}
+
+void loop() {{
+    int reading = digitalRead(buttonPin);
+    
+    if (reading != lastButtonState) {{
+        lastDebounceTime = millis();
+    }}
+    
+    if ((millis() - lastDebounceTime) > debounceDelay) {{
+        if (reading != buttonState) {{
+            buttonState = reading;
+            
+            if (buttonState == HIGH) {{
+                Serial.println(list[pos]);
+                pos++;
+                if (pos == length) {{
+                    pos = 0;
+                }}
+                
+            }}
+        }}
+    }}
+    lastButtonState = reading;
+}}
